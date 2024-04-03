@@ -8,15 +8,12 @@ let selectedId = "";
 
 const dogMap = new Map<string, Dog>();
 
-addDog("Comet", "Whippet");
-addDog("Oscar", "German Shorthaired Pointer");
+addDog("Comet", "Whippet", "d1");
+addDog("Oscar", "German Shorthaired Pointer", "d2");
 
-let lastId = 0;
-function addDog(name: string, breed: string): Dog {
-  // Cloudflare doesn't want to allow random behavior like this.
-  // const id = crypto.randomUUID(); // standard web API
-  lastId++;
-  const id = String(lastId);
+function addDog(name: string, breed: string, id?: string): Dog {
+  // Cloudflare doesn't allow random generation outside handlers.
+  if (!id) id = crypto.randomUUID(); // standard web API
   const dog = { id, name, breed };
   dogMap.set(id, dog);
   return dog;

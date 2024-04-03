@@ -80,13 +80,18 @@ The steps followed to create this were:
   app.use("/*", serveStatic({ root: "./", manifest }));
   ```
 
-  Cloudflare seems to not support using the `crypto.randomUUID` function,
-  so change the beginning of the `addDog` function to the following:
+  Cloudflare doesn't allow generating random data like UUID values
+  outside handler functions.
+  To address this, change the lines that create initial dogs and
+  the beginning of the `addDog` function to the following:
 
   ```ts
-  let lastId = 0;
-  function addDog(name: string, breed: string): Dog {
-    lastId++;
+  addDog("Comet", "Whippet", "d1");
+  addDog("Oscar", "German Shorthaired Pointer", "d2");
+
+  function addDog(name: string, breed: string, id?: string): Dog {
+    // Cloudflare doesn't allow random generation outside handlers.
+    if (!id) id = crypto.randomUUID(); // standard web API
   ```
 
 - Add the following lines in `wrangler.toml`:
