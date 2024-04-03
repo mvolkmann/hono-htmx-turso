@@ -105,4 +105,6 @@ The steps followed to create this were:
 
 - Redeploy the app by entering `bun run deploy`
 
+- Copy the "Published" URL, paste it in a browser, and test the deployed app.
+
 TODO: Add use of Turso.
