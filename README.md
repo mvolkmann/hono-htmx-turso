@@ -118,4 +118,30 @@ Later we will move it to a Turso (SQLite) database.
 
 ## Adding Use of Turso
 
+1. Browse the [Turso](https://turso.tech) website.
+
+1. Click the "Sign Up" button and create an account
+   OR click the "Login" button if you already have one.
+
+1. Click "Databases" in the left nav.
+
+1. Click the "New Database+" button.
+
+1. Enter a database name like "dogs" and click the "Create Database" button.
+
+1. Install the Turso CLI.
+
+   In macOS this can be done by entering
+   `brew install tursodatabase/tap/turso`.
+
+   For other platforms, see the
+   [Turso CLI Introduction](https://docs.turso.tech/cli).
+
+1. Sign in by entering `turso auth signup`
+
+1. Start a CLI session by entering `turso db shell dogs`
+
+1. Create a table in the "dogs" database by entering
+   `create table dogs(id text primary key, name string, breed string);`
+
 TODO: Finish this.
