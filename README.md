@@ -57,16 +57,33 @@ The steps followed to create this were:
   [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app.
 
 - Replace the contents of `src/server.tsx` with the contents of the same file in the
-  [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app,
-  but delete the following line:
+  [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app.
+
+  Delete the following line:
 
   ```ts
   import "./reload-server.ts";
   ```
 
+  In the import for `serveStatic`,
+  change "hono/bun" to "hono/cloudflare-workers".
+
+  In the line that calls `serveStatic`, change "./public" to "./".
+
+  Cloudflare seems to not support using the `crypto.randomUUID` function,
+  so change the beginning of the `addDog` function to the following:
+
+  ```ts
+  let lastId = 0;
+  function addDog(name: string, breed: string): Dog {
+    lastId++;
+  ```
+
 - Add the following lines in `wrangler.toml`:
 
   ```toml
+  main = "src/server.tsx"
+
   [site]
   bucket = "./public"
   ```
@@ -75,3 +92,5 @@ The steps followed to create this were:
   Press "b" to open a browser with localhost:8787.
 
 - Redeploy the app by entering `bun run deploy`
+
+TODO: Add use of Turso.

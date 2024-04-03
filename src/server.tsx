@@ -1,5 +1,5 @@
 import { type Context, Hono } from "hono";
-import { serveStatic } from "hono/bun";
+import { serveStatic } from "hono/cloudflare-workers";
 
 type Dog = { id: string; name: string; breed: string };
 
@@ -10,8 +10,12 @@ const dogMap = new Map<string, Dog>();
 addDog("Comet", "Whippet");
 addDog("Oscar", "German Shorthaired Pointer");
 
+let lastId = 0;
 function addDog(name: string, breed: string): Dog {
-  const id = crypto.randomUUID(); // standard web API
+  // Cloudflare doesn't want to allow random behavior like this.
+  // const id = crypto.randomUUID(); // standard web API
+  lastId++;
+  const id = String(lastId);
   const dog = { id, name, breed };
   dogMap.set(id, dog);
   return dog;
@@ -53,7 +57,7 @@ function dogRow(dog: Dog, updating = false) {
 const app = new Hono();
 
 // Serve static files from the public directory.
-app.use("/*", serveStatic({ root: "./public" }));
+app.use("/*", serveStatic({ root: "./" }));
 
 // Deletes the dog with a given id.
 app.delete("/dog/:id", (c: Context) => {
