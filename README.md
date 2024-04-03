@@ -4,112 +4,118 @@ This project provides an example of hosting a web app in Cloudflare
 using htmx as the web library, Hono as the server library,
 and Turso as the database host.
 
-You can follow these steps to create and deploy this app yourself:
+## Initial App
 
-- Install <a href="https://bun.sh" target="_blank">Bun</a>.
+You can follow these steps to create and deploy this app yourself.
+We will start by holding data in memory.
+Later we will move it to a Turso (SQLite) database.
 
-- Install the Cloudflare Worker CLI tool by entering
-  `npm install -g wrangler`
+1. Install <a href="https://bun.sh" target="_blank">Bun</a>.
 
-- Create a new project by entering `npm create cloudflare -- {app-name}`
+1. Install the Cloudflare Worker CLI tool by entering
+   `npm install -g wrangler`
 
-  - For "Ok to proceed", press enter.
-  - For "What type of application do you want to create?",
-    select "Website or web app".
-  - For "Which development framework do you want to use?",
-    select "Hono".
-  - For "Do you want to install project dependencies?", press enter for "Y".
-  - For "Which package manager do you want to use?", select "bun".
-  - For "Do you want to use git for version control"?, press enter for "Yes".
-  - For "Do you want to deploy your application"?, press enter for "Yes".
-    This will open a new browser tab where you can
-    "Sign up" to create a new account or "Log in" to an existing account.
+1. Create a new project by entering `npm create cloudflare -- {app-name}`
 
-- If you chose not to deploy the app,
-  `cd` to the `{app-name}` directory and enter `bun run deploy`
+   - For "Ok to proceed", press enter.
+   - For "What type of application do you want to create?",
+     select "Website or web app".
+   - For "Which development framework do you want to use?",
+     select "Hono".
+   - For "Do you want to install project dependencies?", press enter for "Y".
+   - For "Which package manager do you want to use?", select "bun".
+   - For "Do you want to use git for version control"?, press enter for "Yes".
+   - For "Do you want to deploy your application"?, press enter for "Yes".
+     This will open a new browser tab where you can
+     "Sign up" to create a new account or "Log in" to an existing account.
 
-- Copy the "Published" URL that is output and paste it in a web browser.
+1. If you chose not to deploy the app,
+   `cd` to the `{app-name}` directory and enter `bun run deploy`
 
-  Verify that it renders "Hello Hono!".
+1. Copy the "Published" URL that is output and paste it in a web browser.
 
-- Rename `src/index.ts` to `src/server.tsx`
+   Verify that it renders "Hello Hono!".
 
-  Using the `tsx` file extension enables using JSX syntax.
+1. Rename `src/index.ts` to `src/server.tsx`
 
-- Edit `package.json` and change `index.ts` to `server.tsx`
-  in both the `dev` and `deploy` scripts.
+   Using the `tsx` file extension enables using JSX syntax.
 
-- Enter `bun add hono`
+1. Edit `package.json` and change `index.ts` to `server.tsx`
+   in both the `dev` and `deploy` scripts.
 
-- Enter `bun add @hono/zod-validator`
+1. Enter `bun add hono`
 
-- Create the `public` directory.
+1. Enter `bun add @hono/zod-validator`
 
-- Create the file `public/index.html` containing the same as
-  [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app,
-  but delete the following line:
+1. Create the `public` directory.
 
-  ```html
-  <script src="reload-client.js" type="module"></script>
-  ```
+1. Create the file `public/index.html` containing the same as
+   [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app,
+   but delete the following line:
 
-- Create the file `public/styles.css` containing the same as
-  [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app.
+   ```html
+   <script src="reload-client.js" type="module"></script>
+   ```
 
-- Replace the contents of `src/server.tsx` with the contents of the same file in the
-  [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app.
+1. Create the file `public/styles.css` containing the same as
+   [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app.
 
-  Delete the following line:
+1. Replace the contents of `src/server.tsx` with the contents of the same file in the
+   [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app.
 
-  ```ts
-  import "./reload-server.ts";
-  ```
+   Delete the following line:
 
-  In the import for `serveStatic`,
-  change "hono/bun" to "hono/cloudflare-workers".
+   ```ts
+   import "./reload-server.ts";
+   ```
 
-  Add the following line:
+   In the import for `serveStatic`,
+   change "hono/bun" to "hono/cloudflare-workers".
 
-  ```ts
-  import manifest from "__STATIC_CONTENT_MANIFEST";
-  ```
+   Add the following line:
 
-  Change the line that calls `serveStatic` to the following:
+   ```ts
+   import manifest from "__STATIC_CONTENT_MANIFEST";
+   ```
 
-  ```ts
-  app.use("/*", serveStatic({ root: "./", manifest }));
-  ```
+   Change the line that calls `serveStatic` to the following:
 
-  Cloudflare doesn't allow generating random data like UUID values
-  outside handler functions.
-  To address this, change the lines that create initial dogs and
-  the beginning of the `addDog` function to the following:
+   ```ts
+   app.use("/*", serveStatic({ root: "./", manifest }));
+   ```
 
-  ```ts
-  addDog("Comet", "Whippet", "d1");
-  addDog("Oscar", "German Shorthaired Pointer", "d2");
+   Cloudflare doesn't allow generating random data like UUID values
+   outside handler functions.
+   To address this, change the lines that create initial dogs and
+   the beginning of the `addDog` function to the following:
 
-  function addDog(name: string, breed: string, id?: string): Dog {
-    // Cloudflare doesn't allow random generation outside handlers.
-    if (!id) id = crypto.randomUUID(); // standard web API
-  ```
+   ```ts
+   addDog("Comet", "Whippet", "d1");
+   addDog("Oscar", "German Shorthaired Pointer", "d2");
 
-- Add the following lines in `wrangler.toml`:
+   function addDog(name: string, breed: string, id?: string): Dog {
+     // Cloudflare doesn't allow random generation outside handlers.
+     if (!id) id = crypto.randomUUID(); // standard web API
+   ```
 
-  ```toml
-  main = "src/server.tsx"
+1. Add the following lines in `wrangler.toml`:
 
-  [site]
-  bucket = "./public"
-  ```
+   ```toml
+   main = "src/server.tsx"
 
-- Start a local server by entering `bun dev`.
-  Press "b" to open a browser to localhost:8787.
+   [site]
+   bucket = "./public"
+   ```
 
-- Test all the functionality by added a dog, editing it, and deleting it.
+1. Start a local server by entering `bun dev`.
+   Press "b" to open a browser to localhost:8787.
 
-- Redeploy the app by entering `bun run deploy`
+1. Test all the functionality by added a dog, editing it, and deleting it.
 
-- Copy the "Published" URL, paste it in a browser, and test the deployed app.
+1. Redeploy the app by entering `bun run deploy`
 
-TODO: Add use of Turso.
+1. Copy the "Published" URL, paste it in a browser, and test the deployed app.
+
+## Adding Use of Turso
+
+TODO: Finish this.
