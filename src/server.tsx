@@ -1,5 +1,6 @@
 import { type Context, Hono } from "hono";
 import { serveStatic } from "hono/cloudflare-workers";
+import manifest from "__STATIC_CONTENT_MANIFEST";
 
 type Dog = { id: string; name: string; breed: string };
 
@@ -57,7 +58,7 @@ function dogRow(dog: Dog, updating = false) {
 const app = new Hono();
 
 // Serve static files from the public directory.
-app.use("/*", serveStatic({ root: "./" }));
+app.use("/*", serveStatic({ root: "./", manifest }));
 
 // Deletes the dog with a given id.
 app.delete("/dog/:id", (c: Context) => {

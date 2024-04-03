@@ -68,7 +68,17 @@ The steps followed to create this were:
   In the import for `serveStatic`,
   change "hono/bun" to "hono/cloudflare-workers".
 
-  In the line that calls `serveStatic`, change "./public" to "./".
+  Add the following line:
+
+  ```ts
+  import manifest from "__STATIC_CONTENT_MANIFEST";
+  ```
+
+  Change the line that calls `serveStatic` to the following:
+
+  ```ts
+  app.use("/*", serveStatic({ root: "./", manifest }));
+  ```
 
   Cloudflare seems to not support using the `crypto.randomUUID` function,
   so change the beginning of the `addDog` function to the following:
@@ -89,7 +99,9 @@ The steps followed to create this were:
   ```
 
 - Start a local server by entering `bun dev`.
-  Press "b" to open a browser with localhost:8787.
+  Press "b" to open a browser to localhost:8787.
+
+- Test all the functionality by added a dog, editing it, and deleting it.
 
 - Redeploy the app by entering `bun run deploy`
 
