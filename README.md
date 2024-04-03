@@ -4,7 +4,7 @@ This project provides an example of hosting a web app in Cloudflare
 using htmx as the web library, Hono as the server library,
 and Turso as the database host.
 
-The steps followed to create this were:
+You can follow these steps to create and deploy this app yourself:
 
 - Install <a href="https://bun.sh" target="_blank">Bun</a>.
 
