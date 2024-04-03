@@ -64,4 +64,14 @@ The steps followed to create this were:
   import "./reload-server.ts";
   ```
 
+- Add the following lines in `wrangler.toml`:
+
+  ```toml
+  [site]
+  bucket = "./public"
+  ```
+
+- Start a local server by entering `bun dev`.
+  Press "b" to open a browser with localhost:8787.
+
 - Redeploy the app by entering `bun run deploy`

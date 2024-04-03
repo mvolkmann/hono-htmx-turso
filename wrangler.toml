@@ -1,6 +1,9 @@
 name = "hono-htmx-turso"
 compatibility_date = "2023-12-01"
 
+[site]
+bucket = "./public"
+
 # [vars]
 # MY_VAR = "my-variable"
 
