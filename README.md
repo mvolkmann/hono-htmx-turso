@@ -6,20 +6,19 @@ Zod for HTTP request validation, and Turso as the database host.
 
 For details on each of these technologies, see my blog pages.
 
-- <a href="https://mvolkmann.github.io/blog/topics/#/blog/cloudflare-workers/" target="_blank">Cloudflare Workers</a>
-- <a href="https://mvolkmann.github.io/blog/topics/#/blog/htmx/" target="_blank">htmx</a>
-- <a href="https://mvolkmann.github.io/blog/topics/#/blog/hono/" target="_blank">Hono</a>
-- <a href="https://mvolkmann.github.io/blog/topics/#/blog/turso/" target="_blank">Turso</a>
-- <a href="https://mvolkmann.github.io/blog/topics/#/blog/zod/" target="_blank">Zod</a>
+- [Cloudflare Workers}(https://mvolkmann.github.io/blog/topics/#/blog/cloudflare-workers/)
+- [Hono](https://mvolkmann.github.io/blog/topics/#/blog/hono/)
+- [htmx](https://mvolkmann.github.io/blog/topics/#/blog/htmx/)
+- [Turso](https://mvolkmann.github.io/blog/topics/#/blog/turso/)
+- [Zod](https://mvolkmann.github.io/blog/topics/#/blog/zod/)
 
 Follow these steps to create, deploy, and test this app yourself.
 
-1. Install <a href="https://bun.sh" target="_blank">Bun</a>.
+1. Install [Bun](https://bun.sh).
 
 1. Create a Cloudflare account.
 
-   - Browse <a href="https://www.cloudflare.com"
-     target="_blank">cloudflare.com</a>.
+   - Browse [cloudflare.com](https://www.cloudflare.com).
    - Click the "Sign up" button in the upper-right.
 
 1. Install the Cloudflare Worker CLI tool by entering
