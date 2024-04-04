@@ -1,10 +1,18 @@
 # cloudflare-hono-htmx-turso
 
-This project provides an example of hosting a web app in Cloudflare.
+This project provides an example of hosting a basic CRUD web app in Cloudflare.
 The web app uses htmx as the web library, Hono as the server library,
 Zod for HTTP request validation, and Turso as the database host.
 
-Follow these steps to create and deploy this app yourself.
+For details on each of these technologies, see my blog pages.
+
+- <a href="https://mvolkmann.github.io/blog/topics/#/blog/cloudflare-workers/" target="_blank">Cloudflare Workers</a>
+- <a href="https://mvolkmann.github.io/blog/topics/#/blog/htmx/" target="_blank">htmx</a>
+- <a href="https://mvolkmann.github.io/blog/topics/#/blog/hono/" target="_blank">Hono</a>
+- <a href="https://mvolkmann.github.io/blog/topics/#/blog/turso/" target="_blank">Turso</a>
+- <a href="https://mvolkmann.github.io/blog/topics/#/blog/zod/" target="_blank">Zod</a>
+
+Follow these steps to create, deploy, and test this app yourself.
 
 1. Install <a href="https://bun.sh" target="_blank">Bun</a>.
 
