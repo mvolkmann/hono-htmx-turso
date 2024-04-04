@@ -21,8 +21,9 @@ Follow these steps to create, deploy, and test this app yourself.
    - Browse [cloudflare.com](https://www.cloudflare.com).
    - Click the "Sign up" button in the upper-right.
 
-1. Install the Cloudflare Worker CLI tool by entering
-   `npm install -g wrangler`
+1. Install the Cloudflare Worker CLI tool.
+
+   Enter `npm install -g wrangler`
 
 1. Create a new Cloudflare project.
 
@@ -482,7 +483,7 @@ Follow these steps to create, deploy, and test this app yourself.
 
 1. Test the deployed app.
 
-   - Authenticate with Cloudflare by entering `wrangler login`.
+   - Authenticate with Cloudflare by entering `wrangler login`.  
      A browser window will open. Click the "Allow" button.
    - Deploy the app by entering `bun run deploy`
    - Copy the "Published" URL and paste it in a browser.
