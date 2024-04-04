@@ -6,7 +6,7 @@ Zod for HTTP request validation, and Turso as the database host.
 
 For details on each of these technologies, see my blog pages.
 
-- [Cloudflare Workers}(https://mvolkmann.github.io/blog/topics/#/blog/cloudflare-workers/)
+- [Cloudflare Workers](https://mvolkmann.github.io/blog/topics/#/blog/cloudflare-workers/)
 - [Hono](https://mvolkmann.github.io/blog/topics/#/blog/hono/)
 - [htmx](https://mvolkmann.github.io/blog/topics/#/blog/htmx/)
 - [Turso](https://mvolkmann.github.io/blog/topics/#/blog/turso/)
