@@ -27,6 +27,27 @@ const dogSchema = z
   .strict(); // no extra properties allowed
 const dogValidator = zValidator('form', dogSchema);
 
+async function createDog(
+  env: EnvType,
+  name: string,
+  breed: string
+): Promise<Dog> {
+  const resultSet = await getClient(env).execute({
+    sql: 'insert into dogs (name, breed) values (?, ?)',
+    args: [name, breed]
+  });
+  const id = Number(resultSet.lastInsertRowid);
+  return {id, name, breed};
+}
+
+async function deleteDog(env: EnvType, id: string): Promise<boolean> {
+  const resultSet = await getClient(env).execute({
+    sql: 'delete from dogs where id = ?',
+    args: [id]
+  });
+  return resultSet.rowsAffected > 0;
+}
+
 function dogRow(dog: Dog, updating = false) {
   const attrs: {[key: string]: string} = {};
   if (updating) attrs['hx-swap-oob'] = 'true';
@@ -58,27 +79,6 @@ function dogRow(dog: Dog, updating = false) {
       </td>
     </tr>
   );
-}
-
-async function createDog(
-  env: EnvType,
-  name: string,
-  breed: string
-): Promise<Dog> {
-  const resultSet = await getClient(env).execute({
-    sql: 'insert into dogs (name, breed) values (?, ?)',
-    args: [name, breed]
-  });
-  const id = Number(resultSet.lastInsertRowid);
-  return {id, name, breed};
-}
-
-async function deleteDog(env: EnvType, id: string): Promise<boolean> {
-  const resultSet = await getClient(env).execute({
-    sql: 'delete from dogs where id = ?',
-    args: [id]
-  });
-  return resultSet.rowsAffected > 0;
 }
 
 async function getAllDogs(env: EnvType): Promise<Dog[]> {
