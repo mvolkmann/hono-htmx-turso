@@ -48,30 +48,31 @@ Later we will move it to a Turso (SQLite) database.
      OR click the "Login" button if you already have one.
    - Click "Databases" in the left nav.
    - Click the "New Database+" button.
-   - Enter a database name like "dogs" and click the "Create Database" button.
+   - Enter a database name and click the "Create Database" button.
 
 1. Create a table in the Turso database using the CLI.
 
    - Install the Turso CLI.
 
      In macOS this can be done by entering
-     `brew install tursodatabase/tap/turso`.
+     `brew install tursodatabase/tap/turso`
 
      For other platforms, see the
      [Turso CLI Introduction](https://docs.turso.tech/cli).
 
    - Sign in to Turso by entering `turso auth signup`
 
-   - Start a Turso CLI session by entering `turso db shell dogs`
+   - Start a Turso CLI session by entering `turso db shell {db-name}`
 
    - Create a table by entering
      `create table dogs(id integer primary key autoincrement, name string, breed string);`
+   - Enter `.quit`
 
 1. Configure database access.
 
-   - Enter `turso db tokens create dogs` to get a token value.
+   - Enter `turso db tokens create {db-name}` to get a token value.
 
-   - Enter `turso db info dogs` and note the URL.
+   - Enter `turso db show {db-name}` and note the URL.
 
    - Add `wrangler.toml` in the `.gitignore` file.
 
@@ -85,7 +86,7 @@ Later we will move it to a Turso (SQLite) database.
 
      [vars]
      TURSO_AUTH = "{token-from-above}"
-     TURSO_URL = "{url-from-above}"
+     TURSO_URL = "{db-url-from-above}"
      ```
 
 1. Create client-side files.
@@ -449,10 +450,22 @@ Later we will move it to a Turso (SQLite) database.
 
    - Start a local server by entering `bun dev`.
    - Press "b" to open a browser to localhost:8787.
-   - Add a dog, edit it, and deleting it.
+   - Add several dogs.
+   - Edit one of the dogs.
+   - Delete one of the dogs.
+   - Refresh the brower to verify that changes were persisted.
+     The dogs will be sorted on name after a refresh.
+
+1. Verify the database contents.
+
+   - Enter `turso db shell {db-name}`
+   - Enter `select * from dogs;`
+   - Enter `.quit`
 
 1. Test the deployed app.
 
+   - Authenticate with Cloudflare by entering `wrangler login`.
+     A browser window will open. Click the "Allow" button.
    - Deploy the app by entering `bun run deploy`
    - Copy the "Published" URL and paste it in a browser.
    - Add a dog, edit it, and deleting it.
