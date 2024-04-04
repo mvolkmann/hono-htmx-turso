@@ -10,6 +10,8 @@ You can follow these steps to create and deploy this app yourself.
 We will start by holding data in memory.
 Later we will move it to a Turso (SQLite) database.
 
+1. TODO: Describe creating a Cloudflare account.
+
 1. Install <a href="https://bun.sh" target="_blank">Bun</a>.
 
 1. Install the Cloudflare Worker CLI tool by entering
@@ -60,13 +62,15 @@ Later we will move it to a Turso (SQLite) database.
 1. Create the file `public/styles.css` containing the same as
    [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app.
 
+1. Enter `bun add -D @types/bun`
+
 1. Replace the contents of `src/server.tsx` with the contents of the same file in the
    [htmx-dogs-crud](https://github.com/mvolkmann/htmx-examples/blob/main/htmx-dogs-crud) app.
 
    Delete the following line:
 
    ```ts
-   import "./reload-server.ts";
+   import './reload-server.ts';
    ```
 
    In the import for `serveStatic`,
@@ -75,13 +79,13 @@ Later we will move it to a Turso (SQLite) database.
    Add the following line:
 
    ```ts
-   import manifest from "__STATIC_CONTENT_MANIFEST";
+   import manifest from '__STATIC_CONTENT_MANIFEST';
    ```
 
    Change the line that calls `serveStatic` to the following:
 
    ```ts
-   app.use("/*", serveStatic({ root: "./", manifest }));
+   app.use('/*', serveStatic({root: './', manifest}));
    ```
 
    Cloudflare doesn't allow generating random data like UUID values
@@ -142,6 +146,21 @@ Later we will move it to a Turso (SQLite) database.
 1. Start a CLI session by entering `turso db shell dogs`
 
 1. Create a table in the "dogs" database by entering
-   `create table dogs(id text primary key, name string, breed string);`
+   `create table dogs(id integer primary key autoincrement, name string, breed string);`
+
+1. Enter `bun add @libsql/client`
+
+1. Enter `turso db tokens create dogs` to get a token value.
+
+1. Enter `turso db info dogs` and note the URL.
+
+1. Add `wrangler.toml` in the `.gitignore` file.
+1. Add the following lines in the `wrangler.toml` file.
+
+```toml
+[vars]
+TURSO_AUTH = "{token-from-above}"
+TURSO_URL = "{url-from-above}"
+```
 
 TODO: Finish this.

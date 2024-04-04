@@ -5,10 +5,12 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.2.1",
+    "@libsql/client": "^0.6.0",
     "hono": "^4.2.1"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240402.0",
+    "@types/bun": "^1.0.12",
     "wrangler": "^3.32.0"
   }
 }

@@ -5,8 +5,9 @@ compatibility_date = "2023-12-01"
 [site]
 bucket = "./public"
 
-# [vars]
-# MY_VAR = "my-variable"
+[vars]
+TURSO_AUTH = "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MTIyNDM5NzcsImlkIjoiMmY0MzBlYmQtZjI3NC00NTY0LTllMGItMTljNTI0OGM5NmIwIn0.uNKrBDJixCCPoO9x5HownqRTrk6wPxlLy6FtB5i3Fntts-_6G2voGsO8q87InkjKIthf_siJ3hAPhAk3Mfg7Cg"
+TURSO_URL = "libsql://dogs-mvolkmann.turso.io"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
