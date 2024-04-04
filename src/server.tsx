@@ -1,8 +1,9 @@
 import {type Context, Hono} from 'hono';
 import {serveStatic} from 'hono/cloudflare-workers';
+import {zValidator} from '@hono/zod-validator';
 import {createClient, type Client} from '@libsql/client';
+import {z} from 'zod';
 import manifest from '__STATIC_CONTENT_MANIFEST';
-
 type Dog = {id: number; name: string; breed: string};
 
 type EnvType = {
@@ -12,6 +13,19 @@ type EnvType = {
 
 let client: Client | null = null;
 let selectedId = 0;
+
+const idSchema = z.object({
+  id: z.coerce.number().positive()
+});
+const idValidator = zValidator('param', idSchema);
+
+const dogSchema = z
+  .object({
+    name: z.string().min(1),
+    breed: z.string().min(1)
+  })
+  .strict(); // no extra properties allowed
+const dogValidator = zValidator('form', dogSchema);
 
 function dogRow(dog: Dog, updating = false) {
   const attrs: {[key: string]: string} = {};
@@ -110,7 +124,7 @@ const app = new Hono();
 app.use('/*', serveStatic({root: './', manifest}));
 
 // Deletes the dog with a given id.
-app.delete('/dog/:id', async (c: Context) => {
+app.delete('/dog/:id', idValidator, async (c: Context) => {
   const id = c.req.param('id');
   const existed = await deleteDog(c.env, id);
   if (!existed) c.status(404);
@@ -182,7 +196,7 @@ app.get('/form', async (c: Context) => {
 });
 
 // Selects a dog.
-app.get('/select/:id', (c: Context) => {
+app.get('/select/:id', idValidator, (c: Context) => {
   selectedId = Number(c.req.param('id'));
   c.header('HX-Trigger', 'selection-change');
   return c.body(null);
@@ -196,7 +210,7 @@ app.get('/table-rows', async (c: Context) => {
 });
 
 // Creates a dog.
-app.post('/dog', async (c: Context) => {
+app.post('/dog', dogValidator, async (c: Context) => {
   const formData = await c.req.formData();
   const name = (formData.get('name') as string) || '';
   const breed = (formData.get('breed') as string) || '';
@@ -205,7 +219,7 @@ app.post('/dog', async (c: Context) => {
 });
 
 // Updates a dog
-app.put('/dog/:id', async (c: Context) => {
+app.put('/dog/:id', idValidator, dogValidator, async (c: Context) => {
   const id = Number(c.req.param('id'));
   const formData = await c.req.formData();
   const name = (formData.get('name') as string) || '';
