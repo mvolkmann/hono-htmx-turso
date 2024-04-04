@@ -171,11 +171,11 @@ app.get('/form', async (c: Context) => {
       </div>
       <div class="buttons">
         <button id="submit-btn">{selectedId ? 'Update' : 'Add'}</button>
-        {selectedId && (
+        {selectedId ? (
           <button hx-get="/deselect" hx-swap="none" type="button">
             Cancel
           </button>
-        )}
+        ) : null}
       </div>
     </form>
   );
