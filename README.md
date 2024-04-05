@@ -53,7 +53,7 @@ Follow these steps to create, deploy, and test this app yourself.
    - Click the "Sign Up" button and create an account
      OR click the "Login" button if you already have one.
    - Click "Databases" in the left nav.
-   - Click the "New Database+" button.
+   - Click the "Create Database" or "New Database+" button.
    - Enter a database name and click the "Create Database" button.
 
 1. Create a table in the Turso database using the CLI.
