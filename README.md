@@ -12,6 +12,17 @@ For details on each of these technologies, see my blog pages.
 - [Turso](https://mvolkmann.github.io/blog/topics/#/blog/turso/)
 - [Zod](https://mvolkmann.github.io/blog/topics/#/blog/zod/)
 
+Hono, htmx, and Zod are free, open source libraries.
+
+Cloudflare Workers provide a generous free tier.
+The first 100,000 requests each day are free.
+After that the cost is $5 USD per 10 million requests.
+
+Turso also provides a generous free tier.
+The "STARTER" tier, which is free, provides
+9 GB of storage, 500 databases in 3 locations,
+1 billion row reads per month, and 25 million row writes per month.
+
 Follow these steps to create, deploy, and test this app yourself.
 
 1. Install [Bun](https://bun.sh).
