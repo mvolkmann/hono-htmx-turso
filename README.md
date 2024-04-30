@@ -19,7 +19,7 @@ Follow these steps to create, deploy, and test this app yourself.
 1. Create a Cloudflare account.
 
    - Browse [cloudflare.com](https://www.cloudflare.com).
-   - Click the "Sign up" button in the upper-right.
+   - Click the "Sign up" of "Log in" button in the upper-right.
 
 1. Install the Cloudflare Worker CLI tool.
 
@@ -131,3 +131,12 @@ Follow these steps to create, deploy, and test this app yourself.
    - Deploy the app by entering `bun run deploy`
    - Copy the "Published" URL and paste it in a browser.
    - Add several dogs, edit one, and delete one.
+
+1. View the app from the Cloudflare Dashboard.
+
+   - Browse [cloudflare.com](https://www.cloudflare.com).
+   - Click the "Sign up" of "Log in" button in the upper-right.
+   - Click "Workers & Pages" in the left nav.
+   - Click an app link.
+   - Click the "Deployments" tab.
+   - In the "Active Deployment" section, click a "View Version" link.
