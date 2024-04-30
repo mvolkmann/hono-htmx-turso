@@ -27,6 +27,9 @@ const dogSchema = z
   .strict(); // no extra properties allowed
 const dogValidator = zValidator('form', dogSchema);
 
+/**
+ * @returns a Promise that resolves to a new Dog object
+ */
 async function createDog(
   env: EnvType,
   name: string,
@@ -40,6 +43,10 @@ async function createDog(
   return {id, name, breed};
 }
 
+/**
+ * @returns a Promise that resolves to a Boolean
+ *   that indicates whether the delete was successful
+ */
 async function deleteDog(env: EnvType, id: string): Promise<boolean> {
   const resultSet = await getClient(env).execute({
     sql: 'delete from dogs where id = ?',
@@ -48,6 +55,9 @@ async function deleteDog(env: EnvType, id: string): Promise<boolean> {
   return resultSet.rowsAffected > 0;
 }
 
+/**
+ * @returns JSX describing a new table row
+ */
 function dogRow(dog: Dog, updating = false) {
   const attrs: {[key: string]: string} = {};
   if (updating) attrs['hx-swap-oob'] = 'true';
@@ -81,6 +91,10 @@ function dogRow(dog: Dog, updating = false) {
   );
 }
 
+/**
+ * @returns a Promise that resolves to JSX
+ *   that describes all the required table rows
+ */
 async function getAllDogs(env: EnvType): Promise<Dog[]> {
   const resultSet = await getClient(env).execute('select * from dogs');
   const {rows} = resultSet;
@@ -89,6 +103,9 @@ async function getAllDogs(env: EnvType): Promise<Dog[]> {
   );
 }
 
+/**
+ * @returns a LibSQL Client object used to execute SQL statements
+ */
 function getClient(env: EnvType): Client {
   if (!client) {
     client = createClient({
@@ -99,6 +116,9 @@ function getClient(env: EnvType): Client {
   return client;
 }
 
+/**
+ * @returns a Promise that resolves to the Dog with the given id
+ */
 async function getDog(env: EnvType, id: number): Promise<Dog | undefined> {
   const resultSet = await getClient(env).execute({
     sql: 'select * from dogs where id = ?',
@@ -111,8 +131,11 @@ async function getDog(env: EnvType, id: number): Promise<Dog | undefined> {
     : undefined;
 }
 
+/**
+ * @returns a Promise that resolves when the update completes
+ */
 async function updateDog(env: EnvType, dog: Dog) {
-  const resultSet = await getClient(env).execute({
+  return getClient(env).execute({
     sql: 'update dogs set name=?, breed=? where id = ?',
     args: [dog.name, dog.breed, dog.id]
   });
@@ -146,13 +169,13 @@ app.get('/form', async (c: Context) => {
     'hx-on:htmx:after-request': 'this.reset()'
   };
   if (selectedId) {
-    // Update an existing row.
-    // A new table row will replace the current one
+    // Update the selected dog and return a new table row.
+    // The new table row will replace the current one
     // using an out-of-band swap.
     attrs['hx-put'] = '/dog/' + selectedId;
   } else {
-    // Add a new row.
-    // A new table row will be added after the beginning of the
+    // Create a new dog and return a new table row.
+    // The new table row will be added after the beginning of the
     // `tbody` element, making it the new, first child element.
     attrs['hx-post'] = '/dog';
     attrs['hx-target'] = 'tbody';
