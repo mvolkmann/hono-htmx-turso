@@ -107,6 +107,9 @@ Follow these steps to create, deploy, and test this app yourself.
    - Enter `bun add hono`
    - Enter `bun add @hono/zod-validator`
    - Copy the file `src/server.tsx` from this repository.
+     - Several functions are passed a Hono `Context` object using
+       the parameter name `c`. The property `c.env` is populated
+       with environment variables specified in `wrangler.toml`.
 
 1. Test the app locally.
 
